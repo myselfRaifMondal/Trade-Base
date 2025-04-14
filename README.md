@@ -1,6 +1,6 @@
-![](https://imgur.com/rY41C9X)
-![](https://imgur.com/IKdRsdQ)
-![](https://imgur.com/aGgBg6q)
+[![](https://imgur.com/rY41C9X)](https://imgur.com/rY41C9X)
+[![](https://imgur.com/IKdRsdQ)](https://imgur.com/IKdRsdQ)
+[![](https://imgur.com/aGgBg6q)](https://imgur.com/aGgBg6q)
 # 📈 Trade Base
 
 Welcome to your personal, private stock market simulation playground — a **streamlit-based virtual trading terminal** made just for *you*.
