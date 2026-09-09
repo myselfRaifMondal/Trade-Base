@@ -1,14 +1,24 @@
 import streamlit as st
-from db import init_db
+from db import init_db, ensure_user
 from trade import place_trade
 from portfolio import calculate_portfolio, get_trade_history_df, get_equity_curve, get_leaderboard
 import plotly.express as px
 
 init_db()
 
-user = "Ad0rable"
-
 st.title("Ascendra Wealth Trade Base")
+
+DEFAULT_USER = "Ad0rable"
+
+user = st.sidebar.text_input("Trader name", DEFAULT_USER).strip()
+if not user:
+    st.sidebar.warning("Enter a trader name to start trading.")
+    st.info("Pick a trader name in the sidebar to get started.")
+    st.stop()
+
+# Register the active trader so they show up on the leaderboard, which reads
+# from the users table. Idempotent, so this is safe on every rerun.
+ensure_user(user)
 
 menu = ['Trade', 'Portfolio', "Leaderboard"]
 page = st.sidebar.selectbox("Go to", menu)
