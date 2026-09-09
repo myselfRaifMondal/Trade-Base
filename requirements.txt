@@ -1,5 +1,9 @@
-streamlit
-yfinance
-pandas
-plotly
-pytest
+# Bounded so a fresh install cannot silently pull a breaking major release.
+# Lower bounds are known-good floors; upper bounds stop at the next major.
+streamlit>=1.40,<2
+yfinance>=1.0,<2
+pandas>=2.2,<4
+plotly>=5.24,<8
+
+# Test-only dependency
+pytest>=8.0,<10
