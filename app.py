@@ -1,7 +1,10 @@
 import streamlit as st
+from db import init_db
 from trade import place_trade
 from portfolio import calculate_portfolio, get_trade_history_df, get_equity_curve, get_leaderboard
 import plotly.express as px
+
+init_db()
 
 user = "Ad0rable"
 
