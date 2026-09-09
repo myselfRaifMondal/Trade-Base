@@ -1,7 +1,10 @@
+import logging
 import sqlite3
 import yfinance as yf   
 from collections import defaultdict
 import pandas as pd 
+
+logger = logging.getLogger(__name__)
 
 def get_trade_history_df(username):
     trades = get_user_trades(username)
@@ -76,10 +79,24 @@ def calculate_portfolio(username):
         try:
             data = yf.Ticker(symbol)
             hist = data.history(period="1d")
-            current_price = hist["Close"][-1]
+            if hist.empty or "Close" not in hist or hist["Close"].empty:
+                logger.warning(
+                    "No price data returned for %s (unknown or delisted symbol?); "
+                    "treating current price as 0.0",
+                    symbol,
+                )
+                current_prices[symbol] = 0.0
+                continue
+            current_price = hist["Close"].iloc[-1]
             current_prices[symbol] = current_price
             avg_cost = cost_basis[symbol] / holdings[symbol]
             unrealized_pnl += (current_price - avg_cost) * holdings[symbol]
-        except:
+        except Exception as exc:
+            logger.warning(
+                "Failed to fetch current price for %s: %s; treating current price as 0.0",
+                symbol,
+                exc,
+                exc_info=True,
+            )
             current_prices[symbol] = 0.0
     return holdings, current_prices, realized_pnl, unrealized_pnl
